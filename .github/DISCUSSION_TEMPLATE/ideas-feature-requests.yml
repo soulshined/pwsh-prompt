@@ -1,0 +1,79 @@
+title: "[Feature Request] "
+body:
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - New Cmdlet
+        - Enhancement
+        - User Experience (UX)
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe your idea or feature request in detail
+      render: markdown
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "---\n### Examples\nProvide up to three input/output examples to illustrate the expected behavior"
+
+  - type: textarea
+    id: example-1-input
+    attributes:
+      label: "Example 1 — Input"
+      description: A sample input that demonstrates the feature
+      render: powershell
+    validations:
+      required: true
+
+  - type: textarea
+    id: example-1-output
+    attributes:
+      label: "Example 1 — Expected Output"
+      description: The expected output for the input above
+      render: powershell
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "---"
+
+  - type: textarea
+    id: example-2-input
+    attributes:
+      label: "Example 2 — Input"
+      description: A sample input that demonstrates the feature
+      render: powershell
+
+  - type: textarea
+    id: example-2-output
+    attributes:
+      label: "Example 2 — Expected Output"
+      description: "**Must be filled out if Example 2 input is provided**"
+      render: powershell
+
+  - type: markdown
+    attributes:
+      value: "---"
+
+  - type: textarea
+    id: example-3-input
+    attributes:
+      label: "Example 3 — Input"
+      description: A sample input that demonstrates the feature
+      render: powershell
+
+  - type: textarea
+    id: example-3-output
+    attributes:
+      label: "Example 3 — Expected Output"
+      description: "**Must be filled out if Example 3 input is provided**"
+      render: powershell

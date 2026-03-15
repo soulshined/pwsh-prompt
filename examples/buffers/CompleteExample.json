@@ -1,0 +1,36 @@
+{
+	"ForegroundColor": ["White", "230;230;230"],
+	"BackgroundColor": ["Black", "18;18;18"],
+	"Border": {
+		"HorizontalSide": "═",
+		"VerticalSide": "║",
+		"TopLeft": "╔",
+		"TopRight": "╗",
+		"BottomLeft": "╚",
+		"BottomRight": "╝",
+		"Color": ["DarkCyan", "0;139;139"]
+	},
+	"Item": {
+		"Item": {
+			"Text": "",
+			"ForegroundColor": ["Gray", "180;180;180"]
+		},
+		"Selected": {
+			"Text": "",
+			"ForegroundColor": ["White", "255;255;255"],
+			"Style": "Bold,Reverse"
+		},
+		"multipleIndicator": {
+			"Enabled": { "Text": "✅", "ForegroundColor": ["Green", "0;255;100"] },
+			"Disabled": { "Text": "⬜", "ForegroundColor": ["DarkGray", "100;100;100"] }
+		},
+		"selectedMultipleIndicator": {
+			"Enabled": { "Text": "🔥", "ForegroundColor": ["Yellow", "255;200;0"] },
+			"Disabled": { "Text": "👉", "ForegroundColor": ["White", "255;255;255"] }
+		}
+	},
+	"Pagination": {
+		"SelectedItem": { "Text": "●", "ForegroundColor": ["Cyan", "0;255;255"] },
+		"Item": { "Text": "○", "ForegroundColor": ["DarkGray", "80;80;80"] }
+	}
+}
