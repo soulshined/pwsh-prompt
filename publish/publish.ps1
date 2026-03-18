@@ -82,37 +82,6 @@ if ($Prerelease) {
 
 #endregion
 
-#region Build Release
-
-if ($PSCmdlet.ShouldProcess('dotnet build -c Release', 'Build')) {
-	Write-Host "`nBuilding Release..." -ForegroundColor Yellow
-	dotnet build $ProjectRoot -c Release -warnaserror
-	if ($LASTEXITCODE -ne 0) { throw "dotnet build failed with exit code $LASTEXITCODE" }
-}
-
-#endregion
-
-#region Run tests
-
-if ($PSCmdlet.ShouldProcess('dotnet test', 'Test')) {
-	Write-Host "`nRunning tests..." -ForegroundColor Yellow
-	$TestProject = Join-Path $ProjectRoot 'PwshPrompt.Tests'
-	$NullInput = if ($IsWindows) { 'NUL' } else { '/dev/null' }
-	$Proc = Start-Process -FilePath 'dotnet' -ArgumentList @('test', $TestProject) `
-		-NoNewWindow -Wait -PassThru -RedirectStandardInput $NullInput
-	if ($Proc.ExitCode -ne 0) { throw "dotnet test failed with exit code $($Proc.ExitCode)" }
-}
-
-#endregion
-
-#region Generate docs
-
-if ($PSCmdlet.ShouldProcess('platyPS doc generation', 'Generate docs')) {
-	& (Join-Path $PSScriptRoot 'generate-docs.ps1') -ProjectRoot $ProjectRoot -DocsRoot $PSScriptRoot
-}
-
-#endregion
-
 #region Update psd1
 
 if ($PSCmdlet.ShouldProcess($PSD1Path, 'Generate module manifest')) {
@@ -170,6 +139,43 @@ if ($PSCmdlet.ShouldProcess($CsprojPath, 'Update csproj metadata')) {
 	$Props.PackageLicenseExpression = $ManifestData.PackageLicenseExpression
 
 	$Csproj.Save($CsprojPath)
+}
+
+#endregion
+
+#region Clean and build Release
+
+if ($PSCmdlet.ShouldProcess('dotnet build -c Release', 'Build')) {
+	$ReleasePath = Join-Path $ProjectRoot 'bin' 'Release'
+	if (Test-Path $ReleasePath) {
+		Write-Host "`nCleaning previous Release output..." -ForegroundColor Yellow
+		Remove-Item $ReleasePath -Recurse -Force
+	}
+
+	Write-Host "`nBuilding Release..." -ForegroundColor Yellow
+	dotnet build $ProjectRoot -c Release -warnaserror
+	if ($LASTEXITCODE -ne 0) { throw "dotnet build failed with exit code $LASTEXITCODE" }
+}
+
+#endregion
+
+#region Run tests
+
+if ($PSCmdlet.ShouldProcess('dotnet test', 'Test')) {
+	Write-Host "`nRunning tests..." -ForegroundColor Yellow
+	$TestProject = Join-Path $ProjectRoot 'PwshPrompt.Tests'
+	$NullInput = if ($IsWindows) { 'NUL' } else { '/dev/null' }
+	$Proc = Start-Process -FilePath 'dotnet' -ArgumentList @('test', $TestProject) `
+		-NoNewWindow -Wait -PassThru -RedirectStandardInput $NullInput
+	if ($Proc.ExitCode -ne 0) { throw "dotnet test failed with exit code $($Proc.ExitCode)" }
+}
+
+#endregion
+
+#region Generate docs
+
+if ($PSCmdlet.ShouldProcess('platyPS doc generation', 'Generate docs')) {
+	& (Join-Path $PSScriptRoot 'generate-docs.ps1') -ProjectRoot $ProjectRoot -DocsRoot $PSScriptRoot
 }
 
 #endregion
