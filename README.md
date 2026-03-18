@@ -62,7 +62,7 @@ $selected = Prompt-Choice @(
 
 ## Commands
 
-### Prompt-Input
+### [Prompt-Input](https://github.com/soulshined/pwsh-prompt/wiki/Prompt-Input)
 
 Typed, validated text input with retry logic.
 
@@ -73,7 +73,7 @@ Typed, validated text input with retry logic.
 - **Retry control** — infinite retries by default, cap with `-AttemptsAllotment`, or fail-fast with `-ErrorAction Stop`
 - **Culture-aware parsing** — override with `-Culture` for locale-specific number and date formats
 
-### Prompt-Choice
+### [Prompt-Choice](https://github.com/soulshined/pwsh-prompt/wiki/Prompt-Choice)
 
 Navigable single or multi-select picker.
 
@@ -84,7 +84,7 @@ Navigable single or multi-select picker.
 - **Alternate buffer** — fullscreen rendering with complete customization
 - **Per-item styling** — individual choices can override foreground, background, and style
 
-### Styling
+### [Styling](https://github.com/soulshined/pwsh-prompt/wiki/about_Label)
 
 Every label in both cmdlets accepts a plain string or a hashtable for full control:
 
