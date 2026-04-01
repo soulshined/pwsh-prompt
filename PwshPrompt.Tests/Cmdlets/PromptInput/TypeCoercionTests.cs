@@ -61,6 +61,16 @@ public class TypeCoercionTests
 		}
 
 		[Theory]
+		[InlineData("-128", (sbyte)-128)]
+		[InlineData("0", (sbyte)0)]
+		[InlineData("127", (sbyte)127)]
+		public void Sbyte_valid_input(string input, sbyte expected)
+		{
+			CmdletResult result = RunWithInput("sbyte", input);
+			Assert.Equal(expected, result.Output[0].BaseObject);
+		}
+
+		[Theory]
 		[InlineData("-32768", (short)-32768)]
 		[InlineData("0", (short)0)]
 		[InlineData("32767", (short)32767)]
@@ -255,6 +265,29 @@ public class TypeCoercionTests
 			Assert.IsType<TimeOnly>(result.Output[0].BaseObject);
 		}
 
+		[Theory]
+		[InlineData("FF", "FF")]
+		[InlineData("0xFF", "FF")]
+		[InlineData("0XFF", "FF")]
+		[InlineData("0x0", "0")]
+		[InlineData("A", "A")]
+		[InlineData("0x1A2B", "1A2B")]
+		[InlineData("ff", "ff")]
+		public void Hex_valid_input(string input, string expected)
+		{
+			CmdletResult result = RunWithInput("hex", input);
+			Assert.Equal(expected, result.Output[0].BaseObject);
+		}
+
+		[Fact]
+		public void Timezone_valid_utc()
+		{
+			CmdletResult result = RunWithInput("timezone", "UTC");
+			Assert.False(result.HadTerminatingError);
+			Assert.IsType<TimeZoneInfo>(result.Output[0].BaseObject);
+			Assert.Equal(TimeZoneInfo.Utc, result.Output[0].BaseObject);
+		}
+
 		[Fact]
 		public void Directory_existing_path_returns_DirectoryInfo()
 		{
@@ -301,6 +334,16 @@ public class TypeCoercionTests
 		public void Byte_invalid_input_emits_InvalidInputType(string input)
 		{
 			CmdletResult result = RunFail("byte", input);
+			Assert.Equal("InvalidInputType", result.FirstErrorId);
+		}
+
+		[Theory]
+		[InlineData("128")]
+		[InlineData("-129")]
+		[InlineData("abc")]
+		public void Sbyte_invalid_input_emits_InvalidInputType(string input)
+		{
+			CmdletResult result = RunFail("sbyte", input);
 			Assert.Equal("InvalidInputType", result.FirstErrorId);
 		}
 
@@ -391,6 +434,25 @@ public class TypeCoercionTests
 		public void Date_invalid_format_emits_InvalidInputType(string input)
 		{
 			CmdletResult result = RunFail("date", input);
+			Assert.Equal("InvalidInputType", result.FirstErrorId);
+		}
+
+		[Theory]
+		[InlineData("xyz")]
+		[InlineData("0xGG")]
+		[InlineData("not-hex")]
+		public void Hex_invalid_input_emits_InvalidInputType(string input)
+		{
+			CmdletResult result = RunFail("hex", input);
+			Assert.Equal("InvalidInputType", result.FirstErrorId);
+		}
+
+		[Theory]
+		[InlineData("Not/A/Real/Timezone")]
+		[InlineData("fake-tz")]
+		public void Timezone_invalid_id_emits_InvalidInputType(string input)
+		{
+			CmdletResult result = RunFail("timezone", input);
 			Assert.Equal("InvalidInputType", result.FirstErrorId);
 		}
 

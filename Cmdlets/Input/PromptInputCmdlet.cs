@@ -54,6 +54,7 @@ namespace PwshPrompt.Cmdlets;
 [OutputType(typeof(string))]
 [OutputType(typeof(bool))]
 [OutputType(typeof(byte))]
+[OutputType(typeof(sbyte))]
 [OutputType(typeof(char))]
 [OutputType(typeof(short))]
 [OutputType(typeof(ushort))]
@@ -73,6 +74,7 @@ namespace PwshPrompt.Cmdlets;
 [OutputType(typeof(DateOnly))]
 [OutputType(typeof(DateTime))]
 [OutputType(typeof(TimeOnly))]
+[OutputType(typeof(TimeZoneInfo))]
 public class PromptInputCmdlet : PSCmdlet
 {
 	/// <summary>
@@ -112,11 +114,11 @@ public class PromptInputCmdlet : PSCmdlet
 	/// For <c>"directory"</c> and <c>"file"</c>, tab completion of filesystem paths is enabled.
 	/// </summary>
 	[Parameter(Mandatory = false, HelpMessage = "Target type for input coercion. Case-sensitive. Defaults to 'string'.")]
-	[ValidateSet("bool", "byte", "char", "string",
+	[ValidateSet("bool", "byte", "sbyte", "char", "string",
 		"short", "ushort", "int", "integer", "uint", "long", "ulong",
 		"float", "double", "decimal",
-		"directory", "file", "regex", "guid", "version",
-		"uri", "date", "datetime", "time", IgnoreCase = false)]
+		"hex", "directory", "file", "regex", "guid", "version",
+		"uri", "date", "datetime", "time", "timezone", IgnoreCase = false)]
 	public string ExpectedType { get; set; } = "string";
 
 	/// <summary>
@@ -143,7 +145,7 @@ public class PromptInputCmdlet : PSCmdlet
 
 	/// <summary>
 	/// Overrides the current culture used for parsing culture-sensitive types
-	/// (byte, short, ushort, int, uint, long, ulong, float, double, decimal, date, datetime, time).
+	/// (byte, sbyte, short, ushort, int, uint, long, ulong, float, double, decimal, date, datetime, time).
 	/// Accepts a culture name such as <c>"en-US"</c> or <c>"de-DE"</c>.
 	/// An invalid culture name throws a terminating <c>ParameterDefinitionError</c>.
 	/// </summary>
@@ -293,6 +295,7 @@ public class PromptInputCmdlet : PSCmdlet
 	/// <list type="bullet">
 	/// <item><description><c>"bool"</c> — <see cref="bool"/></description></item>
 	/// <item><description><c>"byte"</c> — <see cref="byte"/></description></item>
+	/// <item><description><c>"sbyte"</c> — <see cref="sbyte"/></description></item>
 	/// <item><description><c>"char"</c> — <see cref="char"/></description></item>
 	/// <item><description><c>"string"</c> — <see cref="string"/></description></item>
 	/// <item><description><c>"short"</c> — <see cref="short"/></description></item>
@@ -304,6 +307,7 @@ public class PromptInputCmdlet : PSCmdlet
 	/// <item><description><c>"float"</c> — <see cref="float"/></description></item>
 	/// <item><description><c>"double"</c> — <see cref="double"/></description></item>
 	/// <item><description><c>"decimal"</c> — <see cref="decimal"/></description></item>
+	/// <item><description><c>"hex"</c> — <see cref="string"/> (hexadecimal input with optional 0x prefix)</description></item>
 	/// <item><description><c>"directory"</c> — <see cref="DirectoryInfo"/> (must exist on disk)</description></item>
 	/// <item><description><c>"file"</c> — <see cref="FileInfo"/> (must exist on disk)</description></item>
 	/// <item><description><c>"regex"</c> — <see cref="Regex"/></description></item>
@@ -313,12 +317,14 @@ public class PromptInputCmdlet : PSCmdlet
 	/// <item><description><c>"date"</c> — <see cref="DateOnly"/></description></item>
 	/// <item><description><c>"datetime"</c> — <see cref="DateTime"/></description></item>
 	/// <item><description><c>"time"</c> — <see cref="TimeOnly"/></description></item>
+	/// <item><description><c>"timezone"</c> — <see cref="TimeZoneInfo"/></description></item>
 	/// </list>
 	/// </returns>
 	/// <exception cref="PSInvalidCastException">Thrown when the input cannot be converted to the expected type.</exception>
 	private object Cast(string input) {
 		object resolved = ExpectedType switch
 		{
+			"string" => input,
 			"bool" => input.ToLower() switch
 			{
 				"1" or "y" or "yes" or "on" => true,
@@ -326,6 +332,7 @@ public class PromptInputCmdlet : PSCmdlet
 				_ => throw new PSInvalidCastException()
 			},
 			"byte" => byte.TryParse(input, NumberStyles.Integer, _culture, out byte b) ? b : throw new PSInvalidCastException(),
+			"sbyte" => sbyte.TryParse(input, NumberStyles.Integer, _culture, out sbyte sb) ? sb : throw new PSInvalidCastException(),
 			"short" => short.TryParse(input, NumberStyles.Integer, _culture, out short s) ? s : throw new PSInvalidCastException(),
 			"ushort" => ushort.TryParse(input, NumberStyles.Integer, _culture, out ushort us) ? us : throw new PSInvalidCastException(),
 			"int" or "integer" => int.TryParse(input, NumberStyles.Integer, _culture, out int i) ? i : throw new PSInvalidCastException(),
@@ -335,7 +342,6 @@ public class PromptInputCmdlet : PSCmdlet
 			"float" => float.TryParse(input, NumberStyles.Float | NumberStyles.AllowThousands, _culture, out float f) ? f : throw new PSInvalidCastException(),
 			"double" => double.TryParse(input, NumberStyles.Float | NumberStyles.AllowThousands, _culture, out double d) ? d : throw new PSInvalidCastException(),
 			"decimal" => decimal.TryParse(input, NumberStyles.Number, _culture, out decimal m) ? m : throw new PSInvalidCastException(),
-			"string" => input,
 			"directory" => ResolveDirectory(input),
 			"file" => ResolveFile(input),
 			"regex" => input.ParseRegex(),
@@ -346,6 +352,8 @@ public class PromptInputCmdlet : PSCmdlet
 			"date" => DateOnly.TryParse(input, _culture, out DateOnly dt) ? dt : throw new PSInvalidCastException(),
 			"datetime" => DateTime.TryParse(input, _culture, out DateTime dtm) ? dtm : throw new PSInvalidCastException(),
 			"time" => TimeOnly.TryParse(input, _culture, out TimeOnly t) ? t : throw new PSInvalidCastException(),
+			"timezone" => ResolveTimeZone(input),
+			"hex" => ParseHex(input),
 			_ => throw new NotImplementedException(ExpectedType)
 		};
 
@@ -386,6 +394,42 @@ public class PromptInputCmdlet : PSCmdlet
 		} catch (PSInvalidCastException) {
 			throw;
 		} catch {
+			throw new PSInvalidCastException();
+		}
+	}
+
+	/// <summary>
+	/// Parses a hexadecimal string to a <see cref="string"/>. Accepts optional <c>0x</c> or <c>0X</c> prefix.
+	/// </summary>
+	/// <param name="input">The hex string entered by the user.</param>
+	/// <returns>A <see cref="string"/> value without the prefix</returns>
+	/// <exception cref="PSInvalidCastException">Thrown when the input is not valid hexadecimal.</exception>
+	private static string ParseHex(string input)
+	{
+		ReadOnlySpan<char> hex = input.AsSpan();
+		if (hex.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+			hex = hex[2..];
+
+		return long.TryParse(hex, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out _)
+			? hex.ToString()
+			: throw new PSInvalidCastException();
+	}
+
+	/// <summary>
+	/// Resolves a time zone identifier to a <see cref="TimeZoneInfo"/>.
+	/// Accepts system time zone IDs (e.g. <c>"America/New_York"</c>, <c>"UTC"</c>).
+	/// </summary>
+	/// <param name="input">The time zone identifier entered by the user.</param>
+	/// <returns>A <see cref="TimeZoneInfo"/> instance.</returns>
+	/// <exception cref="PSInvalidCastException">Thrown when the identifier does not match a known time zone.</exception>
+	private static TimeZoneInfo ResolveTimeZone(string input)
+	{
+		try
+		{
+			return TimeZoneInfo.FindSystemTimeZoneById(input);
+		}
+		catch
+		{
 			throw new PSInvalidCastException();
 		}
 	}
