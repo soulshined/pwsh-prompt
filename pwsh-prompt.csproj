@@ -11,7 +11,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <!-- Package metadata for NuGet/PSGallery -->
-    <Version>0.0.2</Version>
+    <Version>0.0.3</Version>
     <Authors>David Freer</Authors>
     <Description>The most Powerful PowerShell Prompt module for interactive, highly customizable prompts</Description>
     <ProjectUrl>https://github.com/soulshined/pwsh-prompt</ProjectUrl>
