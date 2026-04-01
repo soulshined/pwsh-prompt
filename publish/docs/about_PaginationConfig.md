@@ -42,8 +42,9 @@ total
     Total page count label.
 ```
 
-An unknown key throws a terminating ParameterDefinitionError.
+An unknown key throws a terminating `ParameterDefinitionError`.
 
 # SEE ALSO
-about_BufferConfig
-about_Label
+[about_BufferConfig](https://github.com/soulshined/pwsh-prompt/wiki/about_BufferConfig)
+
+[about_Label](https://github.com/soulshined/pwsh-prompt/wiki/about_Label)

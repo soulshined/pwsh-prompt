@@ -50,8 +50,9 @@ Color            [string, string]
     Border foreground color. See `about_Color`.
 ```
 
-An unknown key throws a terminating ParameterDefinitionError.
+An unknown key throws a terminating `ParameterDefinitionError`.
 
 # SEE ALSO
-about_BufferConfig
-about_Color
+[about_BufferConfig](https://github.com/soulshined/pwsh-prompt/wiki/about_BufferConfig)
+
+[about_Color](https://github.com/soulshined/pwsh-prompt/wiki/about_Color)

@@ -92,5 +92,6 @@ name instead:
 ```
 
 # SEE ALSO
-about_Label
-about_TextStyle
+[about_Label](https://github.com/soulshined/pwsh-prompt/wiki/about_Label)
+
+[about_TextStyle](https://github.com/soulshined/pwsh-prompt/wiki/about_TextStyle)

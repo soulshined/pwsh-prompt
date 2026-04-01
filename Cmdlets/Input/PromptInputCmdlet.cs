@@ -50,7 +50,13 @@ namespace PwshPrompt.Cmdlets;
 /// <code>Prompt-Input "Config dir" -ExpectedType directory -Default "~/.config"</code>
 /// <para>Prompts for an existing directory with tab completion; defaults to ~/.config on empty input.</para>
 /// </example>
-[Cmdlet("Prompt", "Input", HelpUri = "https://github.com/soulshined/pwsh-prompt/wiki/cmdlets/Prompt-Input")]
+/// <example>
+/// <code>Prompt-Input "Port number" -ExpectedType int -Validation {
+///   @($_ -ge 1024 -and $_ -le 65535, "Must be between 1024 and 65535")
+/// }</code>
+/// <para>Prompts user for a port number with extended custom validation.</para>
+/// </example>
+[Cmdlet("Prompt", "Input", HelpUri = "https://github.com/soulshined/pwsh-prompt/wiki/Prompt-Input")]
 [OutputType(typeof(string))]
 [OutputType(typeof(bool))]
 [OutputType(typeof(byte))]

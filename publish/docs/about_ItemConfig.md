@@ -41,7 +41,7 @@ selectedMultipleIndicator    [hashtable]
 
 ## Toggle Items
 
-The multipleIndicator and selectedMultipleIndicator keys accept a
+The `multipleIndicator` and `selectedMultipleIndicator` keys accept a
 hashtable with two label values controlling the checked and unchecked
 states.
 
@@ -57,8 +57,9 @@ off, unchecked
 
 Each value accepts a label configuration. See `about_Label`.
 
-An unknown key throws a terminating ParameterDefinitionError.
+An unknown key throws a terminating `ParameterDefinitionError`.
 
 # SEE ALSO
-about_BufferConfig
-about_Label
+[about_BufferConfig](https://github.com/soulshined/pwsh-prompt/wiki/about_BufferConfig)
+
+[about_Label](https://github.com/soulshined/pwsh-prompt/wiki/about_Label)

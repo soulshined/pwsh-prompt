@@ -34,5 +34,6 @@ Style = "Bold,Italic,Underline"
 ```
 
 # SEE ALSO
-about_Label
-about_Color
+[about_Label](https://github.com/soulshined/pwsh-prompt/wiki/about_Label)
+
+[about_Color](https://github.com/soulshined/pwsh-prompt/wiki/about_Color)

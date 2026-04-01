@@ -48,11 +48,15 @@ Pagination        [hashtable]
     See `about_PaginationConfig`.
 ```
 
-An unknown key throws a terminating ParameterDefinitionError.
+An unknown key throws a terminating `ParameterDefinitionError`.
 
 # SEE ALSO
-about_BorderConfig
-about_ItemConfig
-about_PaginationConfig
-about_Label
-about_Color
+[about_BorderConfig](https://github.com/soulshined/pwsh-prompt/wiki/about_BorderConfig)
+
+[about_ItemConfig](https://github.com/soulshined/pwsh-prompt/wiki/about_ItemConfig)
+
+[about_PaginationConfig](https://github.com/soulshined/pwsh-prompt/wiki/about_PaginationConfig)
+
+[about_Label](https://github.com/soulshined/pwsh-prompt/wiki/about_Label)
+
+[about_Color](https://github.com/soulshined/pwsh-prompt/wiki/about_Color)

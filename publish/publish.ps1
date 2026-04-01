@@ -27,8 +27,8 @@ $ManifestData = @{
 
 	Tags              = @('Prompt', 'Interactive', 'Input', 'Choice', 'CLI', 'TUI')
 	ProjectUri        = 'https://github.com/soulshined/pwsh-prompt'
-	LicenseUri        = 'https://github.com/soulshined/pwsh-prompt/blob/main/LICENSE'
-	ReleaseNotes      = 'https://github.com/soulshined/pwsh-prompt/CHANGELOG.md'
+	LicenseUri        = 'https://github.com/soulshined/pwsh-prompt/blob/master/LICENSE'
+	ReleaseNotes      = 'https://github.com/soulshined/pwsh-prompt/blob/master/CHANGELOG.md'
 
 	CmdletsToExport   = @('Prompt-Choice', 'Prompt-Input')
 

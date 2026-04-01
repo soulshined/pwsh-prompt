@@ -2,8 +2,8 @@
 ## about_Label
 
 # SHORT DESCRIPTION
-A label is the fundamental styled-text unit in pwsh-prompt. Any parameter that
-accepts a label can receive either a plain [string] or a [hashtable].
+A label is the fundamental styled-text unit in pwsh-prompt. Any parameter or configuration element that
+accepts a label can receive either a plain `[string]` or a `[hashtable]`.
 
 # LONG DESCRIPTION
 ## String form
@@ -49,9 +49,10 @@ Style             [string]
     Text decoration. See `about_TextStyle`.
 ```
 
-A hashtable missing the Text key throws a terminating
-ParameterDefinitionError.
+A hashtable missing the `Text` key throws a terminating
+`ParameterDefinitionError`.
 
 # SEE ALSO
-about_Color
-about_TextStyle
+[about_Color](https://github.com/soulshined/pwsh-prompt/wiki/about_Color)
+
+[about_TextStyle](https://github.com/soulshined/pwsh-prompt/wiki/about_TextStyle)

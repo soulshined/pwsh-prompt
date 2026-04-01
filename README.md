@@ -34,24 +34,29 @@ Import-Module pwsh-prompt -DisableNameChecking
 >
 > See [Approved Verbs for PowerShell Commands](https://learn.microsoft.com/en-us/powershell/scripting/developer/cmdlet/approved-verbs-for-windows-powershell-commands) for more detail.
 
-_Simple text input_
+_Simple user prompt_
 ```powershell
 $name = Prompt-Input "What's your name?"
 ```
 
-_Typed input with validation_
+_Simple user prompt with type validation (user must provide an integer)_
+```powershell
+$port = Prompt-Input "Port number" -ExpectedType int
+```
+
+_Prompt with type validation and extended custom validation_
 ```
 $port = Prompt-Input "Port number" -ExpectedType int -Validation {
     @($_ -ge 1024 -and $_ -le 65535, "Must be between 1024 and 65535")
 }
 ```
 
-_Single-select picker_
+_Prompt choice picker_
 ```
 $i = Prompt-Choice @("Red", "Green", "Blue") "Pick a color"
 ```
 
-_Multi-select_
+_Prompt choice picker with multiple selections enabled_
 ```
 $selected = Prompt-Choice @(
     @{ Value = "dev"; HotKey = "d"; Description = "Development" },
@@ -64,18 +69,18 @@ $selected = Prompt-Choice @(
 
 ### [Prompt-Input](https://github.com/soulshined/pwsh-prompt/wiki/Prompt-Input)
 
-Typed, validated text input with retry logic.
+Typed, validated text input with retry logic
 
 - **Intuitive Type Casting** — `string`, `int`, `float`, `bool`, `datetime`, `guid`, `uri`, `regex`, `directory`, `file`, and more
 - **Smart bool parsing** — accepts `y/n`, `yes/no`, `on/off`, `1/0`
 - **Tab completion** — built-in filesystem completion for `directory` and `file` types
-- **Custom validation** — pass in a scriptblock to validate input before type casting
 - **Retry control** — infinite retries by default, cap with `-AttemptsAllotment`, or fail-fast with `-ErrorAction Stop`
+- **Custom validation** — pass in a scriptblock to validate input (in tandem with the retry logic)
 - **Culture-aware parsing** — override with `-Culture` for locale-specific number and date formats
 
 ### [Prompt-Choice](https://github.com/soulshined/pwsh-prompt/wiki/Prompt-Choice)
 
-Navigable single or multi-select picker.
+Navigable single or multi-select choice picker
 
 - **Keyboard driven** — arrow keys, digit keys (1-9 page-relative), PgUp/PgDn for pages, Ctrl+Home/Ctrl+End for first/last page, Home/End for first/last on page, Space to toggle, Enter to confirm, Escape to cancel
 - **Hotkeys** — bind any letter to a choice for instant selection
@@ -86,7 +91,7 @@ Navigable single or multi-select picker.
 
 ### [Styling](https://github.com/soulshined/pwsh-prompt/wiki/about_Label)
 
-Every label in both cmdlets accepts a plain string or a hashtable for full control:
+Every label parameter accepts a plain string or a hashtable for full styling control:
 
 ```powershell
 Prompt-Input @{

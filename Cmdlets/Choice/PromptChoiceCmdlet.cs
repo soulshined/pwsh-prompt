@@ -66,7 +66,7 @@ namespace PwshPrompt.Cmdlets;
 ///   @{ Value = "MongoDB"; HelpMessage = "Document store" }
 /// )
 /// Prompt-Choice $dbs "Pick a database"</code>
-/// <para>Items with HelpMessage show it dimmed inline (or in the status bar if too long). Items with Description show a first-line preview; press F1 to view the full description.</para>
+/// <para>Items with HelpMessage show it dimmed inline (or in the status bar if too long). Press F1 to view items with descriptions to view the full description.</para>
 /// </example>
 /// <example>
 /// <code>Prompt-Choice @("A","B","C") "Choose" -Default 2 -CycleMode Cycle</code>
@@ -89,7 +89,7 @@ namespace PwshPrompt.Cmdlets;
 /// }</code>
 /// <para>Renders in the alternate screen buffer with custom colors and double-line box-drawing border.</para>
 /// </example>
-[Cmdlet("Prompt", "Choice", HelpUri = "https://github.com/soulshined/pwsh-prompt/wiki/cmdlets/Prompt-Choice")]
+[Cmdlet("Prompt", "Choice", HelpUri = "https://github.com/soulshined/pwsh-prompt/wiki/Prompt-Choice")]
 [OutputType(typeof(int[]))]
 public class PromptChoiceCmdlet : PSCmdlet
 {
@@ -197,7 +197,7 @@ public class PromptChoiceCmdlet : PSCmdlet
 	/// <para>An unknown key throws a terminating <c>ParameterDefinitionError</c>.</para>
 	/// </summary>
 	[Parameter(Mandatory = false,
-		HelpMessage = "Alternate buffer appearance. @{} for defaults. See `about_BufferConfig`.")]
+		HelpMessage = "Alternate buffer appearance. `@{}` for defaults. See `about_BufferConfig`.")]
 	public Hashtable? AlternateBuffer { get; set; }
 
 	private Types.Items _choices;
