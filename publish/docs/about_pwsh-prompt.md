@@ -2,7 +2,7 @@
 ## about_pwsh-prompt
 
 # SHORT DESCRIPTION
-Interactive, customizable prompt cmdlets for PowerShell — dependency free.
+Interactive, customizable prompt cmdlets for PowerShell - dependency free.
 
 # LONG DESCRIPTION
 pwsh-prompt provides cmdlets for building interactive terminal prompts:
@@ -16,7 +16,7 @@ retry logic, and optional extended validation. Supports tab-completion for file 
 $name = Prompt-Input "Enter your name"
 $age  = Prompt-Input "Enter your age" -ExpectedType int
 $port = Prompt-Input "Port number" -ExpectedType int -Validation {
-    @($_ -ge 1024 -and $_ -le 65535, "Must be between 1024 and 65535")
+    @(($_ -ge 1024 -and $_ -le 65535), "Must be between 1024 and 65535")
 }
 ```
 

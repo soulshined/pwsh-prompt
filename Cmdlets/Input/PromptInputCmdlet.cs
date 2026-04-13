@@ -52,7 +52,7 @@ namespace PwshPrompt.Cmdlets;
 /// </example>
 /// <example>
 /// <code>Prompt-Input "Port number" -ExpectedType int -Validation {
-///   @($_ -ge 1024 -and $_ -le 65535, "Must be between 1024 and 65535")
+///   @(($_ -ge 1024 -and $_ -le 65535), "Must be between 1024 and 65535")
 /// }</code>
 /// <para>Prompts user for a port number with extended custom validation.</para>
 /// </example>
@@ -486,9 +486,9 @@ public class PromptInputCmdlet : PSCmdlet
 		string? message = second as string;
 
 		if (!ok) {
-			string msg = $"cannot be converted to {ExpectedType}";
+			string msg = $"cannot be converted to {ExpectedType} - failed validation";
 			if (!string.IsNullOrWhiteSpace(message)) {
-				msg = message;
+				msg = message.Trim();
 			}
 
 			WriteError(new ErrorRecord(
